@@ -23,7 +23,7 @@ class SudokuBeholder implements Iterable<Brett> {
 	antallLoesninger++;
     }
 
-    public int getAntallLoesninger() {
+    public int getAntLoesninger() {
 	return antallLoesninger;
     }
 

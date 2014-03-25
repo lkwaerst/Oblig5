@@ -1,5 +1,7 @@
 class UtfyltRute extends Rute {
 
+    boolean skrivUt = true;
+
     UtfyltRute(Rad r, Kolonne k, Boks b, int tall, Brett brett) {
 	super(r, k, b, tall, brett);
     }

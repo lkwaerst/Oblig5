@@ -1,6 +1,12 @@
 class Oblig5 {
     public static void main(String[] args) {
-	Kontroll k = new Kontroll();
-	System.out.println("Ferdig");
+
+	if (args.length > 0) {
+	    Kontroll k = new Kontroll(args);
+	    System.out.println("Ferdig");
+	}
+	else {
+	    System.out.println("Husk filnavn");
+	}
     }
 }

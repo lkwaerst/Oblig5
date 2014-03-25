@@ -1,3 +1,5 @@
+import java.io.PrintWriter;
+
 class Brett {
 
     private Rute [][] ruter;
@@ -16,6 +18,15 @@ class Brett {
 	this.stoerrelse = stoerrelse;
 	this.boksLengde = boksLengde;
 	this.boksHoeyde = boksHoeyde;
+
+	//testutskrift
+	// System.out.println("\n\n");
+	// for (int i = 0; i < stoerrelse; i++) {
+	//     for (int j = 0; j < stoerrelse; j++) {
+	// 	System.out.printf("%2d", info[i][j]);
+	//     }
+	//     System.out.println();
+	// }
 
 
 	//lager rader
@@ -43,9 +54,9 @@ class Brett {
 	//     }
 	//     System.out.println();
 	// }
+    
 	
-	
-	//lager rute objekter
+	//lager rute objekter og lenker dem sammen
 	Rute forrigeRute = new AapenRute(rader[0], kolonner[0], finnBoks(0,0), this); //forsvinner etterhvert
 	for (int i = 0; i < stoerrelse; i++) {
 	    for (int j = 0; j < stoerrelse; j++) {
@@ -62,7 +73,8 @@ class Brett {
 	}
 	
     }
-
+    
+    //gjoer kolonner om til rader og rader om til kolonner
     public int[][] snuTabell(int[][] array) {
 	int[][] nyArray = new int[stoerrelse][stoerrelse];
 	for (int i = 0; i < stoerrelse; i++) {
@@ -102,6 +114,7 @@ class Brett {
 	return bokser[boksNr];
     }
 
+    //Lager en kopi av brettet
     public Brett copy() {
 	int[][] oppdatertInfo = new int[stoerrelse][stoerrelse];
 	for (int i = 0; i < stoerrelse; i++) {
@@ -113,11 +126,35 @@ class Brett {
     }
 		
 
-    public void skriv() {
-	System.out.println("Her er et brett: ");
-	ruter[0][0].skriv(); 
-    } 
+    public void skrivTilTerminal(boolean enLinje) {
+	for (int i = 0; i < stoerrelse; i++) {
+	    for (int j = 0; j < stoerrelse; j++) {
+		System.out.printf("%2s", ruter[i][j].getInnhold());
+	    }
+	    if (enLinje) {
+		System.out.print("//");
+	    }
+	    else {
+		System.out.println();
+	    }
+	}
+    }
 
+    public void skrivTilFil(PrintWriter skriv, boolean enLinje) {
+	for (int i = 0; i < stoerrelse; i++) {
+	    for (int j = 0; j < stoerrelse; j++) {
+		skriv.printf("%2s", ruter[i][j].getInnhold() + "  ");
+	    }
+	    if (enLinje) {
+		skriv.print("//");
+	    }
+	    else {
+		skriv.println();
+	    }
+	}
+    }
+
+    //returnerer en Sudokubeholder med alle mulige maater aa loese dette brettet paa
     public SudokuBeholder finnLoesninger() {
 	return ruter[0][0].fyllUtRestenAvBrettet(new SudokuBeholder());
     }
