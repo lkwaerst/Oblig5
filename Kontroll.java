@@ -1,25 +1,30 @@
 import java.util.*;
 import java.io.*;
+import javax.swing.*;
 
 class Kontroll {
 
+    SudokuView gui;
     SudokuBeholder loesninger;
     Brett oppgave;
     int[][] utgangspunkt;
     int lengde;
     int boksHoeyde;
     int boksLengde;
+    Iterator<Brett> it;
+ 
+    Kontroll() {
 
-    Kontroll(String[] filnavn) {
 	try {
-	    lesFil(filnavn[0]);
+	    lesFil(SudokuView.velgFil());
 	}
-	catch (Exception e) {
-	    e.printStackTrace();
+	catch (FileNotFoundException e) {
+	    System.out.println("Fant ikke fila");
 	}
-	
+
 	oppgave = new Brett(utgangspunkt, lengde, boksLengde, boksHoeyde);
 	loesninger = oppgave.finnLoesninger();
+	it = loesninger.iterator();
 	//test
 	// int[][] ff = new int[9][9];
 	// for (int i = 0; i < 9; i++) {
@@ -30,26 +35,15 @@ class Kontroll {
 	// b = new Brett(ff, 9, 3, 3);	    	    
 	// SudokuBeholder s = b.finnLoesninger();
 	// System.out.println("Antall loesninger: " + s.getAntallLoesninger());
-
-	try {
-	    skrivTilFil(filnavn[1]);
-	}
-	catch (ArrayIndexOutOfBoundsException e) {
-	    skrivTilTerminal();
-	}
-	catch (FileNotFoundException e) {
-	    System.out.println("Fant ikke srivefila");
-	}
-	catch (Exception e) {
-	    e.printStackTrace();
-	}
+	gui = new SudokuView(utgangspunkt, boksHoeyde, boksLengde, this);
 
 	System.out.println("Antall loesninger: " + loesninger.getAntLoesninger());
+	skrivTilTerminal();
     }
 
     //fyller ut utgangspunkt[] med verdier slik at den representerer sudokuen i filen
-    private void lesFil(String filnavn) throws Exception {
-	Scanner les = new Scanner(new File(filnavn));
+    private void lesFil(File fil) throws FileNotFoundException{
+	Scanner les = new Scanner(fil);
 	
 	//finner dimensjonene til tabellen
 	boksHoeyde = les.nextInt();	
@@ -103,6 +97,17 @@ class Kontroll {
 	    b.skrivTilTerminal(kortVersjon);
 	    System.out.println("\n");
 	}
+    }
+
+    //gir neste loesning til view objektet
+    public void visNesteLoesning() {
+	Brett loesning = it.next();
+	int[][] tall = loesning.boksTabell(loesning.getTall());
+	gui.nySudoku(tall);
+    }
+
+    public void visForrigeLoesning() {
+	return;
     }
 }
 	

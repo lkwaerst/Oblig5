@@ -9,8 +9,10 @@ class Brett {
     private int stoerrelse; //lengde og bredde
     private int boksLengde;
     private int boksHoeyde;
+    private int[][] tall;
 
     Brett(int[][] info, int stoerrelse, int boksLengde, int boksHoeyde) {
+	tall = info;
 	ruter = new Rute[stoerrelse][stoerrelse];
 	bokser = new Boks[stoerrelse];
 	kolonner = new Kolonne[stoerrelse];
@@ -161,5 +163,9 @@ class Brett {
 
     public int getGrense() {
 	return stoerrelse;
+    }
+
+    public int[][] getTall() {
+	return tall;
     }
 }
